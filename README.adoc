@@ -1,4 +1,4 @@
-= sse
+= sse-examples image:https://travis-ci.org/daggerok/sse-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/sse-examples"]
 
 //tag::content[]
 == sse servers

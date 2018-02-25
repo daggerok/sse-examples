@@ -9,7 +9,8 @@ jdk:
 install: true
 before_script:
 - sudo apt update -y || true
-- sudo apt install -y --no-install-recommends curl
+- sudo apt install -y --no-install-recommends curl python-pip
+- sudo pip install httpie
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 - stop_any 8080 80
 script:
