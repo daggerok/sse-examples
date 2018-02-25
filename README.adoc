@@ -1,0 +1,12 @@
+= sse
+
+//tag::content[]
+== sse servers
+. link:./sse-server-spring-mvc/[spring-boot 1.x / spring-mvc]
+
+links:
+
+. link:https://golb.hplar.ch/2017/03/Server-Sent-Events-with-Spring.html[Spring SSE]
+. link:https://github.com/aliakh/demo-spring-sse/tree/master/demo-spring4-sse/src/main/java/demo[Github: aliakh/demo-spring-sse]
+
+//end::content[]

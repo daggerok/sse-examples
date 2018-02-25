@@ -1,0 +1,106 @@
+buildscript {
+  ext {
+    javaVersion = "1.8"
+    vavrVersion = "0.9.2"
+    kotlinVersion = "1.2.21"
+    springBootVersion = "1.5.10.RELEASE"
+  }
+}
+
+plugins {
+  id "idea"
+  id "java"
+  id "maven"
+  id "eclipse"
+  id "org.jetbrains.kotlin.jvm" version "1.2.21"
+  id "com.avast.gradle.docker-compose" version "0.6.13"
+  id "org.jetbrains.kotlin.plugin.noarg" version "1.2.21"
+  id "org.jetbrains.kotlin.plugin.spring" version "1.2.21"
+  id "org.jetbrains.kotlin.plugin.allopen" version "1.2.21"
+  id "io.spring.dependency-management" version "1.0.4.RELEASE"
+  id "org.springframework.boot" version "1.5.10.RELEASE"
+}
+
+group = "daggerok"
+version = "0.0.1"
+sourceCompatibility = targetCompatibility = "$javaVersion"
+
+compileKotlin {
+  incremental = true
+  kotlinOptions {
+    freeCompilerArgs = ["-Xjsr305=strict"]
+    jvmTarget = "$javaVersion"
+  }
+}
+
+compileTestKotlin {
+  incremental = true
+  kotlinOptions {
+    freeCompilerArgs = ["-Xjsr305=strict"]
+    jvmTarget = "$javaVersion"
+  }
+}
+
+allOpen {
+  annotation("javax.persistence.Entity")
+}
+
+noArg {
+  annotation("javax.persistence.Entity")
+}
+
+defaultTasks "clean", "build"
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+dependencies {
+  compile("org.webjars.bower:event-source-polyfill:0.0.4")
+  compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+  compile("org.springframework.boot:spring-boot-starter-actuator")
+  //compile("io.vavr:vavr:$vavrVersion")
+  //compileOnly("org.projectlombok:lombok")
+  //testCompileOnly("org.projectlombok:lombok")
+  compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1")
+  compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+  testCompile("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+  }
+}
+
+springBoot {
+  executable = true
+}
+
+def profile = project.hasProperty("profile") ? project.getProperty("profile") : "gradle"
+
+dockerCompose {
+  useComposeFiles = [project.file("docker-compose-${profile}.yaml")]
+  // captureContainersOutput = true
+  captureContainersOutput = false
+  stopContainers = true
+  removeContainers = true
+  removeImages = "Local"
+  removeVolumes = true
+  removeOrphans = true
+  forceRecreate = true
+  waitForTcpPorts = false
+  projectName = project.name
+}
+
+composeUp.dependsOn assemble
+
+task wrapper(type: Wrapper) {
+  gradleVersion = "4.5-rc-2"
+  distributionType = "ALL"
+}
+
+test {
+  systemProperties "property": "value"
+}

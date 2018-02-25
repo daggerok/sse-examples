@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+  <meta charset="UTF-8"/>
+  <title>SSE</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <style>
+    body {
+      padding: 1%;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+<div>
+  <ul id="messages"></ul>
+</div>
+<script th:src="@{./optional-scripts.js}"></script>
+<script type="application/javascript">
+
+  const eventSource = new EventSource("/sse");
+  const elements = document.getElementById("messages");
+
+  function add(message) {
+    const li = document.createElement("li");
+    const code = document.createElement("code");
+    code.innerHTML = JSON.stringify(message);
+    li.appendChild(code);
+    elements.insertBefore(li, elements.firstChild);
+  }
+
+  eventSource.onmessage = function (e) {
+    const payload = JSON.parse(e.data);
+    add({ event: {
+      type: e.type,
+      payload,
+    }});
+    console.log('message received');
+  };
+
+  eventSource.onopen = (e) => {
+    add({ event: { type: e.type }});
+    console.log('connection was opened');
+  };
+
+  eventSource.onerror = (e) => {
+    add({ event: { type: e.type }});
+    switch (e.readyState) {
+      case EventSource.CONNECTING:
+        console.log('connection...');
+        break;
+      case EventSource.OPEN:
+        console.log('opening...');
+        break;
+      case EventSource.CLOSING:
+        console.log('closing...');
+        break;
+      case EventSource.CLOSED:
+        console.log('closed');
+        break;
+      default:
+        console.log('unknown error');
+        break;
+    }
+  }
+</script>
+</body>
+</html>
