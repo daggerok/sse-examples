@@ -15,6 +15,9 @@ links:
 
 TODO:
 
-. link:
+. spring 5
+. java ee
+. ratpack
+. vertx
 
 //end::content[]
