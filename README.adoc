@@ -6,7 +6,15 @@
 
 links:
 
+. link:https://html.spec.whatwg.org/multipage/server-sent-events.html#server-sent-events[SSE spec]
+. link:https://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/htmlsingle/#mvc-ann-async-sse[Async Spring MVC | Spring 4]
+. link:https://docs.spring.io/spring/docs/5.0.x/spring-framework-reference/web.html#mvc-ann-async-sse[Async SPring MVC | Spring 5]
 . link:https://golb.hplar.ch/2017/03/Server-Sent-Events-with-Spring.html[Spring SSE]
 . link:https://github.com/aliakh/demo-spring-sse/tree/master/demo-spring4-sse/src/main/java/demo[Github: aliakh/demo-spring-sse]
+. link:https://www.linkedin.com/pulse/server-sent-events-sse-spring-boot-aliaksandr-liakh
+
+TODO:
+
+. link:
 
 //end::content[]
