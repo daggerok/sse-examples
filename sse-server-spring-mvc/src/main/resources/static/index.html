@@ -21,7 +21,12 @@
 <div>
   <ul id="messages"></ul>
 </div>
-<script th:src="@{./optional-scripts.js}"></script>
+<!--<script th:src="@{./optional-scripts.js}"></script>-->
+<script id="eventsource.min.js">
+  /* <![CDATA[ */
+  window.EventSource || document.write('<script src="/webjars/event-source-polyfill/0.0.4/eventsource.min.js"><\/script>');
+  /* ]]> */
+</script>
 <script type="application/javascript">
 
   const eventSource = new EventSource("/sse");
